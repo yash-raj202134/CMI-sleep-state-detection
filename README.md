@@ -1,5 +1,5 @@
 # CMI-sleep-state-detection
-
+Detect sleep onset and wake from wrist-worn accelerometer data.
 ## Description
 The goal of this project is to detect sleep onset and wake.<br>
 Developed a ML model trained on wrist-worn accelerometer data in order to determine a person's sleep state.<br>
