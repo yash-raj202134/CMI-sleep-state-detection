@@ -16,7 +16,7 @@ The data used for this project was provided by the Healthy Brain Network, a land
 The dataset comprises about 500 multi-day recordings of wrist-worn accelerometer data annotated with two event types: onset, the beginning of sleep, and wakeup, the end of sleep. Your task is to detect the occurrence of these two events in the accelerometer series.
 <br>
 While sleep logbooks remain the gold-standard, when working with accelerometer data we refer to sleep as the longest single period of inactivity while the watch is being worn. For this data, we have guided raters with several concrete instructions:
-<br>
+<br><br>
 A single sleep period must be at least 30 minutes in length.<br>
 A single sleep period can be interrupted by bouts of activity that do not exceed 30 consecutive minutes<br>
 No sleep windows can be detected unless the watch is deemed to be worn for the duration (elaborated upon, below)<br>
@@ -26,4 +26,4 @@ Sleep events do not need to straddle the day-line, and therefore there is no har
 There are roughly as many nights recorded for a series as there are 24-hour periods in that series.<br>
 Though each series is a continuous recording, there may be periods in the series when the accelerometer device was removed. These period are determined as those where suspiciously little variation in the accelerometer signals occur over an extended period of time, which is unrealistic for typical human participants. Events are not annotated for these periods, and you should attempt to refrain from making event predictions during these periods: an event prediction will be scored as false positive.
 <br>
-Each data series represents this continuous (multi-day/event) recording for a unique experimental subject.
+Each data series represents this continuous (multi-day/event) recording for a unique experimental subject.<br>
