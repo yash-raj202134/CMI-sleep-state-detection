@@ -9,7 +9,7 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense ,Dropout ,LSTM ,Activation
 from keras.optimizers import Adam
-
+import matplotlib.pyplot as plt
 
 n_epoch = 300
 
@@ -24,6 +24,7 @@ except Exception as e:
     raise CustomException(e,sys)
 
 
+logging.info("model building")
 
 my_generator = MyGenerator(series_ids, batch_size, steps_per_epoch)
 
@@ -40,3 +41,28 @@ model.compile(
     metrics = ['accuracy']
 )
 print(model.summary())
+
+
+logging.info("model training begains")
+# Model training
+try:
+
+    hist = model.fit_generator(
+        my_generator,
+        epochs=n_epoch,
+    #     validation_data=(X_valid, y_valid),
+        )
+
+
+    plt.plot(hist.history['loss'],label="train set")
+    # plt.plot(hist.history['val_loss'],label="test set")
+    plt.title('model loss')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.legend()
+    plt.show()
+
+except Exception as e:
+    raise CustomException(e,sys)
+
+
