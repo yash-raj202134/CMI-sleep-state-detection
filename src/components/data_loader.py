@@ -5,8 +5,6 @@ sys.path.append('')
 import os
 from src.logger import logging 
 from src.exception import CustomException
-from src.event_detection_ap import score
-
 
 import pandas as pd
 import numpy as np

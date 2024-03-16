@@ -1,59 +1,68 @@
 import os
 import sys
+sys.path.append('')
 
 import numpy as np 
 import pandas as pd
 import dill
 import pickle
-
+import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 
 from src.exception import CustomException
+from src.logger import logging
 
-def save_object(file_path, obj):
+def save_object(obj, file_path):
+    """
+    Save the trained model in .h5 format.
+    Args:
+    - model: Keras model object to be saved.
+    - filepath: String. Path to save the model.
+    """
     try:
         dir_path = os.path.dirname(file_path)
 
         os.makedirs(dir_path, exist_ok=True)
 
-        with open(file_path, "wb") as file_obj:
-            dill.dump(obj, file_obj)
+        obj.save(file_path)
+        logging.info(f"Model saved successfully as {file_path}")
 
     except Exception as e:
         raise CustomException(e, sys)
     
     
-def evaluate_models(X_train, y_train, X_test, y_test, models,params):
-    try:
-        report = {}
+def rmse_and_plot(pred_y, true_y, timestamp):
+    """
+    Calculate RMSE between predicted and true values, and visualize the results.
 
-        for i in range(len(list(models))):
-            model = list(models.values())[i]
+    Args:
+    - pred_y: Numpy array. Predicted values.
+    - true_y: Numpy array. True values.
+    - timestamp: Numpy array or Pandas Series. Timestamps for visualization.
 
-            para=param[list(models.keys())[i]]
+    Returns:
+    - rmse_score: Float. Root Mean Squared Error.
+    """
+    # Calculate RMSE
+    rmse_score = np.sqrt(((true_y - pred_y) ** 2).mean())
+    print("RMSE Score:", rmse_score)
 
-            gs = GridSearchCV(model, para, cv=3)
-            gs.fit(X_train, y_train)
+    # Create DataFrame for visualization
+    pred_y_df = pd.DataFrame(pred_y)
+    pred_y_df.index = timestamp
 
-            model.set_params(**gs.best_params_)
-            model.fit(X_train, y_train)
+    true_y_df = pd.DataFrame(true_y)
+    true_y_df.index = timestamp
 
-            # Make predictions
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
+    # Plot predicted and true values
+    fig, ax = plt.subplots(figsize=(20, 3))
+    ax.plot(pred_y_df, color='red', label="Predicted")
+    ax.plot(true_y_df, color='blue', label="True")
+    ax.legend()
+    plt.show()
 
-            # Evaluate model
-            train_accuracy = accuracy_score(y_train, y_train_pred)
-            test_accuracy = accuracy_score(y_test, y_test_pred)
-
-            report[list(models.keys())[i]] = test_accuracy
-
-        return report
-    
-    except Exception as e:
-        raise CustomException(e,sys)
-
+    return rmse_score
 
 
 
