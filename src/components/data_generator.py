@@ -25,7 +25,6 @@ try:
 except Exception as e:
     raise CustomException(e,sys)
 
-import matplotlib.pyplot as plt
 
 new_train_series_list = {}
 for series_id in series_ids:
